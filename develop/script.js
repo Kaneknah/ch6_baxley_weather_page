@@ -4,7 +4,7 @@ var currentWeather = "https://api.openweathermap.org/data/2.5/weather?q="
 var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?q="
 var units = "units=imperial"
 var searchText = $("#Search-input").val();
-var savedCities = ""
+var savedSearches = ""
 var neededParams = "&APPID=" + apiId + "&" + units;
 
 
@@ -15,12 +15,12 @@ $(document).ready(function() {
 searchCurrentWeather(searchText);
 searchFiveDay(searchText);
 
-// $("#Search-input").val("");
+$("#Search-input").val("");
 
     })
 })
 
-//function for current Weather
+//function for current Weather API Fetch
 function searchCurrentWeather() {
 var url = currentWeather + searchText + neededParams;
 console.log(url)
@@ -30,18 +30,18 @@ fetch(url)
 .then(data => console.log(data)));
 }
 
-//finding a 5 day forecast for input city
-// function searchFiveDay(){
-//     var url = fiveDayForecast + searchText + neededParams;
-//     console.log(url)
+//function for 5day forecast API Fetch
+function searchFiveDay(){
+    var url = fiveDayForecast + searchText + neededParams;
+    console.log(url)
     
-//     fetch(url)
-//     .then(response => response.json()
-//     .then(data => console.log(data)));
-// }
+    fetch(url)
+    .then(response => response.json()
+    .then(data => console.log(data)));
+}
 
 
-
+//  If statements for guarding against failed API fetches?
 //     .then(function(response) {
 //         if(response.ok) {
 //              return response.json().then(function(data) {
