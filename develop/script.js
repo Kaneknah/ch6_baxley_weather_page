@@ -10,20 +10,26 @@
 //the wind speed, and the humidity
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
-let searchResults = document.querySelector(".search-results");
+let searchResults = document.querySelector("#search-results");
 const apiId = "bce1c0851022d2aa9806bc7732f1bf27";
 const currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
 const fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=";
 const neededParams = "&APPID=" + apiId + "&units=imperial";
 const weatherIconUrl = 'http://openweathermap.org/img/wn/';
-let fiveDayCardParent = document.querySelector(".five-day-forecast");
-let searchedContainer = document.querySelector(".searched-container");
+let fiveDayCardParent = document.querySelector("#five-day-parent");
+let singleDayCardParent = document.querySelector("#single-day-parent");
 
 //Start Search function: Connects the button and search ID to run the other functions.
 $(document).ready(function (event) {
   $("#search-button").on("click", function (event) {
     event.preventDefault();
-    searchResults.remove();
+    if (document.querySelector){
+
+    }
+    else{
+
+    
+    }
     let searchText = $("#Search-input").val();
     fetchWeather(searchText);
   });
@@ -47,7 +53,7 @@ if (data["list"]) {
    console.log(data);
   for (let i = 1; i < 40; i+=8){
     let fiveDayCard = document.createElement("div");
-    fiveDayCard.setAttribute("class", "five-day-card");
+    fiveDayCard.setAttribute("id", "five-day-parent");
     fiveDayCardParent.appendChild(fiveDayCard);
     currentData = data["list"][i];
     processData(currentData, fiveDayCard);
@@ -55,8 +61,8 @@ if (data["list"]) {
   }
 } else {
   let singleDayCard = document.createElement("div");
-  singleDayCard.setAttribute("class", "single-day-card");
-  searchedContainer.append(singleDayCard);
+  singleDayCard.setAttribute("id", "single-day-parent");
+  singleDayCardParent.append(singleDayCard);
   processData(data, singleDayCard);
 }
  
