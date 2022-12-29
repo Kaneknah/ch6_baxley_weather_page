@@ -11,3 +11,15 @@ Body{
 .input {
 text-align: center;
 }
+
+.city-data{
+    background-color:antiquewhite
+}
+
+.weather-data {
+    background-color:bisque
+}
+
+.single-day-card{
+    background-color: aquamarine;
+}
