@@ -10,16 +10,17 @@
 //the wind speed, and the humidity
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
-let searchResults = document.querySelector("#search-results");
+
+let searchResults = $("#search-results");
 const apiId = "bce1c0851022d2aa9806bc7732f1bf27";
 const currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
 const fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=";
 const neededParams = "&APPID=" + apiId + "&units=imperial";
 const weatherIconUrl = 'http://openweathermap.org/img/wn/';
-const singleDayParent = document.querySelector("#single-day-parent");
-const fiveDayTitleParent = document.querySelector(".five-day-title-parent");
-const fiveDayParent = document.querySelector("#five-day-parent");
-const savedCityParent = document.querySelector("#saved-city-parent")
+const singleDayParent = $("#single-day-parent");
+const fiveDayTitleParent = $(".five-day-title-parent");
+const fiveDayParent = $("#five-day-parent");
+const savedCityParent = $("#saved-city-parent");
 
 //Start Search function: Connects the button and search ID to run the other functions.
 $(document).ready(function (event) {
@@ -44,39 +45,24 @@ $(document).ready(function (event) {
     let searchText = $("#search-input").val();
     //if statement for blank search request
     if(!searchText){
-      let errorOnSearch = document.createElement("div");
-      errorOnSearch.setAttribute("id", "error-on-search");
-      searchResults.appendChild(errorOnSearch);
-      errorOnSearch.textContent = "Please enter a City Name into the search bar and press Search."
+      let errorOnSearch = $("<div></<div>");
+      errorOnSearch.attr("id", "error-on-search");
+      searchResults.append(errorOnSearch);
+      errorOnSearch.text("Please enter a City Name into the search bar and press Search.")
     } else {
       fetchWeather(searchText);
-      createSearchHistory(searchText)
+      createSearchHistory(searchText);
     }
-    console.log(searchText)
+    console.log(searchText);
   });
 });
 
-
-
-// function createSearchHistory(text){
-//  const savedCityBtn = $("<button></button>")
-//   savedCityParent.append(savedCityBtn.text(searchResults));
-//   savedCityBtn.on('click', )
-
-//   var savedCityBtn = $('<input type="button" />');
-//   savedCityBtn.text = (searchText);
-//     savedCityBtn.appendTo($(savedCityParent));
-
-    //funciton to create history buttons
 function createSearchHistory(searchText) {
-  console.log(searchText)
-    let savedCityBtn = $('<button>')
+  console.log(searchText);
+    let savedCityBtn = $('<button></button>')
         .addClass('saved-city-btn')
         .text(searchText)
-        .on('click', function () {
-            // $('#current-weather').remove();
-            // $('#five-day').empty();
-            // $('#five-day-header').remove();
+        .on('click', function (event) {
             ready(searchText);
         })
         .attr({
@@ -99,19 +85,20 @@ async function fetchWeather(searchText) {
   let currentWeatherResponse = await fetch(currentWeatherUrl);
   currentWeatherResponse = await currentWeatherResponse.json();
   if(currentWeatherResponse["cod"] === "404"){
-    let errorOnSearch = document.createElement("div");
-      errorOnSearch.setAttribute("id", "error-on-search");
-      searchResults.appendChild(errorOnSearch);
-      errorOnSearch.textContent = "Please enter a valid City Name into the search bar."
+    let errorOnSearch = $("<div></<div>")
+      .attr("id", "error-on-search")
+      .text("Please enter a valid City Name into the search bar.");
+    searchResults.append(errorOnSearch);
+      
   } else {
     renderWeather(currentWeatherResponse);
     let fiveDayWeatherResponse = await fetch(fiveDayWeatherUrl);
     renderWeather(await fiveDayWeatherResponse.json());
 
-     let fiveDayTitle = document.createElement("div");
-      fiveDayTitle.setAttribute("id", "five-day-title");
-      fiveDayTitle.textContent = "5-Day Forecast:";
-      fiveDayTitleParent.appendChild(fiveDayTitle);
+     let fiveDayTitle = $("<div></<div>")
+        .attr("id", "five-day-title")
+        .text("5-Day Forecast:");
+      fiveDayTitleParent.append(fiveDayTitle);
   }
 }
 
@@ -119,17 +106,17 @@ function renderWeather(data) {
  
   if (data["list"]) {
     for (let i = 1; i < 40; i+=8){
-      let fiveDayCard = document.createElement("div");
-      fiveDayCard.setAttribute("id", "five-day-card");
-      fiveDayParent.appendChild(fiveDayCard);
+      let fiveDayCard = $("<div></<div>")
+        .attr("id", "five-day-card");
+      fiveDayParent.append(fiveDayCard);
       currentData = data["list"][i];
       processData(currentData, fiveDayCard);
 
       
     //create box for single day results
   }} else {
-    let singleDayCard = document.createElement("div");
-    singleDayCard.setAttribute("id", "single-day-card");
+    let singleDayCard = $("<div></<div>");
+    singleDayCard.attr("id", "single-day-card");
     singleDayParent.append(singleDayCard);
     processData(data, singleDayCard);
 }
@@ -137,32 +124,32 @@ function renderWeather(data) {
 
 function processData(data, cardEl){
   //creating elements for HTML
-  let cityData = document.createElement("div");
-  cardEl.appendChild(cityData);
-  cityData.setAttribute("class", "city-data");
+  let cityData = $("<div></<div>")
+  cardEl.append(cityData);
+  cityData.attr("class", "city-data");
 
-  let weatherData = document.createElement("div");
-  cardEl.appendChild(weatherData);
-  weatherData.setAttribute("class", "weather-data");
+  let weatherData = $("<div></<div>");
+  cardEl.append(weatherData);
+  weatherData.attr("class", "weather-data");
 
   //Creation of current weather location name.
-  let location = document.createElement("h2");
-  location.setAttribute("class", "return-name");
+  let location = $("<h2></<h2>")
+  location.attr("class", "return-name");
   let name = data.name ? data.name : "";
-  location.textContent = name;
+  location.text(name);
   
   //Creation of current weather date.
-  let currentDateEl = document.createElement("h2");
+  let currentDateEl = $("<h2></<h2>");
   let date = data.dt_txt ? data.dt_txt : moment().format("MM/DD/YYYY");
   let whiteSpaceIndex = date.indexOf(" ");
   date = date.slice(0, whiteSpaceIndex);
-  currentDateEl.setAttribute("class", "current-date");
-  currentDateEl.textContent = date;
+  currentDateEl.attr("class", "current-date");
+  currentDateEl.text(date);
 
   //Creation of current weather icon
-  let currentIconEl = document.createElement("img");
+  let currentIconEl = $("img");
   // http://openweathermap.org/img/wn/01d.png
-  currentIconEl.setAttribute("class", "icon");
+  currentIconEl.attr("class", "icon");
   let icon = weatherIconUrl + data.weather[0].icon + ".png";
   currentIconEl.src = icon;
 //appending info to HTML
@@ -170,23 +157,25 @@ function processData(data, cardEl){
   cityData.append(currentIconEl);
 
   //creation of current weather temp.
-  let currentTempEl = document.createElement("p");
-  currentTempEl.setAttribute("class", "return-temp");
   let temp = data.main.temp;
-  currentTempEl.textContent = "Temperature: " + temp + "F";
-  weatherData.appendChild(currentTempEl);
+  let currentTempEl = $("<p></p>")
+    .attr("class", "return-temp")
+    .text("Temperature: " + temp + "F");
+  
+  
+  weatherData.append(currentTempEl);
 
   //creation of current weather humidity.
-  let currentHumidityEl = document.createElement("p");
-  currentHumidityEl.setAttribute("class", "return-humidity");
+  let currentHumidityEl = $("<p></p>");
+  currentHumidityEl.attr("class", "return-humidity");
   let humidity = data.main.humidity;
-  currentHumidityEl.textContent = "Humidity: " + humidity + " %";
-  weatherData.appendChild(currentHumidityEl);
+  currentHumidityEl.text( "Humidity: " + humidity + " %");
+  weatherData.append(currentHumidityEl);
 
 //creation of current weather wind speed.
-  let currentWindSpeedEl = document.createElement("p");
-  currentWindSpeedEl.setAttribute("class", "return-wind-speed");
+  let currentWindSpeedEl = $("<p></p>");
+  currentWindSpeedEl.attr("class", "return-wind-speed");
   let windSpeed = data.wind.speed;
-  currentWindSpeedEl.textContent = "Wind Speed: " + windSpeed + " MPH";
-  weatherData.appendChild(currentWindSpeedEl);
+  currentWindSpeedEl.text("Wind Speed: " + windSpeed + " MPH");
+  weatherData.append(currentWindSpeedEl);
 }
