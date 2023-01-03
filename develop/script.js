@@ -172,10 +172,10 @@ function processData(data, cardEl){
   weatherData.append(currentHumidityEl);
 
 //creation of current weather wind speed.
-  let currentWindSpeedEl = $("<p></p>");
-  currentWindSpeedEl.attr("class", "return-wind-speed");
-  let windSpeed = data.wind.speed;
-  currentWindSpeedEl.text("Wind Speed: " + windSpeed + " MPH");
-  
+let windSpeed = data.wind.speed;
+  let currentWindSpeedEl = $("<p></p>")
+    .attr("class", "return-wind-speed")
+    .text("Wind Speed: " + windSpeed + " MPH");
+
   weatherData.append(currentWindSpeedEl);
 }
