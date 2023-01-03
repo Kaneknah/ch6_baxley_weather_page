@@ -45,10 +45,10 @@ $(document).ready(function (event) {
     let searchText = $("#search-input").val();
     //if statement for blank search request
     if(!searchText){
-      let errorOnSearch = $("<div></<div>");
-      errorOnSearch.attr("id", "error-on-search");
+      let errorOnSearch = $("<div></<div>")
+        .attr("id", "error-on-search")
+        .text("Please enter a City Name into the search bar and press Search.")
       searchResults.append(errorOnSearch);
-      errorOnSearch.text("Please enter a City Name into the search bar and press Search.")
     } else {
       fetchWeather(searchText);
       createSearchHistory(searchText);
@@ -115,8 +115,8 @@ function renderWeather(data) {
       
     //create box for single day results
   }} else {
-    let singleDayCard = $("<div></<div>");
-    singleDayCard.attr("id", "single-day-card");
+    let singleDayCard = $("<div></<div>")
+      .attr("id", "single-day-card");
     singleDayParent.append(singleDayCard);
     processData(data, singleDayCard);
 }
@@ -125,51 +125,50 @@ function renderWeather(data) {
 function processData(data, cardEl){
   //creating elements for HTML
   let cityData = $("<div></<div>")
+    .attr("class", "city-data");
   cardEl.append(cityData);
-  cityData.attr("class", "city-data");
 
-  let weatherData = $("<div></<div>");
+  let weatherData = $("<div></<div>")
+    .attr("class", "weather-data");
   cardEl.append(weatherData);
-  weatherData.attr("class", "weather-data");
 
   //Creation of current weather location name.
-  let location = $("<h2></<h2>")
-  location.attr("class", "return-name");
   let name = data.name ? data.name : "";
+  let location = $("<h2></<h2>");
+  location.attr("class", "return-name");
   location.text(name);
   
   //Creation of current weather date.
-  let currentDateEl = $("<h2></<h2>");
   let date = data.dt_txt ? data.dt_txt : moment().format("MM/DD/YYYY");
   let whiteSpaceIndex = date.indexOf(" ");
   date = date.slice(0, whiteSpaceIndex);
-  currentDateEl.attr("class", "current-date");
-  currentDateEl.text(date);
+  let currentDateEl = $("<h2></<h2>");
+    currentDateEl.attr("class", "current-date")
+    currentDateEl.text(date);
 
   //Creation of current weather icon
-  let currentIconEl = $("img");
   // http://openweathermap.org/img/wn/01d.png
-  currentIconEl.attr("class", "icon");
   let icon = weatherIconUrl + data.weather[0].icon + ".png";
-  currentIconEl.src = icon;
+  let displayIconEl = $("img")
+  .attr("class", "icon")
+  .src = icon;
 //appending info to HTML
   cityData.append(name + " " + date);
-  cityData.append(currentIconEl);
+  cityData.append(displayIconEl);
 
   //creation of current weather temp.
   let temp = data.main.temp;
   let currentTempEl = $("<p></p>")
     .attr("class", "return-temp")
     .text("Temperature: " + temp + "F");
-  
-  
+
   weatherData.append(currentTempEl);
 
   //creation of current weather humidity.
-  let currentHumidityEl = $("<p></p>");
-  currentHumidityEl.attr("class", "return-humidity");
-  let humidity = data.main.humidity;
-  currentHumidityEl.text( "Humidity: " + humidity + " %");
+   let humidity = data.main.humidity;
+  let currentHumidityEl = $("<p></p>")
+    .attr("class", "return-humidity")
+    .text( "Humidity: " + humidity + " %");
   weatherData.append(currentHumidityEl);
 
 //creation of current weather wind speed.
@@ -177,5 +176,6 @@ function processData(data, cardEl){
   currentWindSpeedEl.attr("class", "return-wind-speed");
   let windSpeed = data.wind.speed;
   currentWindSpeedEl.text("Wind Speed: " + windSpeed + " MPH");
+  
   weatherData.append(currentWindSpeedEl);
 }
