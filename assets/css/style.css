@@ -7,10 +7,13 @@ font-size: xxx-large;
 background-color: rgb(53, 53, 243);
 color:beige;
 text-align: center;
+font-family:'Times New Roman', Times, serif;
+border-radius: 0.4rem;
 }
 
 .search-title{
     display: block;
+    margin-bottom: 0%;
 }
 .search-results {
     display:flex;
@@ -53,7 +56,7 @@ text-align: center;
     justify-content: space-evenly;
     display: flex;
     flex-direction: row;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     width: 100%;
 }
 

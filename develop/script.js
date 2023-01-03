@@ -74,14 +74,23 @@ function createSearchHistory(searchText) {
         .addClass('saved-city-btn')
         .text(searchText)
         .on('click', function () {
+            // $('#current-weather').remove();
+            // $('#five-day').empty();
+            // $('#five-day-header').remove();
             ready(searchText);
         })
         .attr({
             type: 'button'
         });
 
+    // append btn to search history div
     savedCityParent.prepend(savedCityBtn);
-};
+}
+
+// function searchSavedCity(){
+//   savedCityBtn.on('click', ready(searchText))
+// }
+
 
 //function for weather API Fetch.
 async function fetchWeather(searchText) {
