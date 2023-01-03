@@ -1,25 +1,75 @@
-*{}
 
-
-
-
-Body{
-
+.main-flex0container{
+    display: flex;
+}
+header {
+font-size: xxx-large;
+background-color: rgb(53, 53, 243);
+color:beige;
+text-align: center;
 }
 
+.search-title{
+    display: block;
+}
+.search-results {
+    display:flex;
+    text-align: center;
+    padding:25%;
+}
+
+.return-name, .current-date {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#single-day-card {
+    border: solid black;
+    margin: 20px;
+    border-radius: 0.4rem;
+}
+#five-day-card {
+    border:solid black;
+    background-color: #00334d;
+    color:beige;
+    margin: 3px;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    border-radius: 0.4rem;
+}
 
 .input {
 text-align: center;
 }
 
-.city-data{
-    background-color:antiquewhite
+#five-day-parent{
+    margin: 10px;
+    min-width: 60px;
+    align-self: stretch;
+    align-content: space-around;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    width: 100%;
 }
 
-.weather-data {
-    background-color:bisque
+/* Flexbox alignments */
+.main-flex-container {
+    display: flex;
+    flex-direction: row;
 }
 
-.single-day-card{
-    background-color: aquamarine;
+.flex-row1 {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.city-data {
+    font-size:x-large;
+    font-weight: bold;
 }

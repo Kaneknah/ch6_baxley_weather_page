@@ -16,59 +16,117 @@ const currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
 const fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=";
 const neededParams = "&APPID=" + apiId + "&units=imperial";
 const weatherIconUrl = 'http://openweathermap.org/img/wn/';
-let fiveDayCardParent = document.querySelector("#five-day-parent");
-let singleDayCardParent = document.querySelector("#single-day-parent");
+const singleDayParent = document.querySelector("#single-day-parent");
+const fiveDayTitleParent = document.querySelector(".five-day-title-parent");
+const fiveDayParent = document.querySelector("#five-day-parent");
+const savedCityParent = document.querySelector("#saved-city-parent")
 
 //Start Search function: Connects the button and search ID to run the other functions.
 $(document).ready(function (event) {
   $("#search-button").on("click", function (event) {
     event.preventDefault();
-    if (document.querySelector){
-
+    //statement to reset search results
+    if($("#single-day-card")) {
+      $("#single-day-parent").empty();
     }
-    else{
-
-    
+    if($("#five-day-card")) {
+      $("#five-day-parent").empty();
     }
-    let searchText = $("#Search-input").val();
-    fetchWeather(searchText);
+    if($("#error-on-search")) {
+      $("#error-on-search").remove();
+    }
+    if($("#five-day-title")) {
+      $(".five-day-title-parent").empty();
+    }
+    if($(".saved-city-btn")){
+     $(".saved-cit-btn").remove();
+    }
+    let searchText = $("#search-input").val();
+    //if statement for blank search request
+    if(!searchText){
+      let errorOnSearch = document.createElement("div");
+      errorOnSearch.setAttribute("id", "error-on-search");
+      searchResults.appendChild(errorOnSearch);
+      errorOnSearch.textContent = "Please enter a City Name into the search bar and press Search."
+    } else {
+      fetchWeather(searchText);
+      createSearchHistory(searchText)
+    }
+    console.log(searchText)
   });
 });
 
-//function for current Weather API Fetch.
+
+
+// function createSearchHistory(text){
+//  const savedCityBtn = $("<button></button>")
+//   savedCityParent.append(savedCityBtn.text(searchResults));
+//   savedCityBtn.on('click', )
+
+//   var savedCityBtn = $('<input type="button" />');
+//   savedCityBtn.text = (searchText);
+//     savedCityBtn.appendTo($(savedCityParent));
+
+    //funciton to create history buttons
+function createSearchHistory(searchText) {
+  console.log(searchText)
+    let savedCityBtn = $('<button>')
+        .addClass('saved-city-btn')
+        .text(searchText)
+        .on('click', function () {
+            ready(searchText);
+        })
+        .attr({
+            type: 'button'
+        });
+
+    savedCityParent.prepend(savedCityBtn);
+};
+
+//function for weather API Fetch.
 async function fetchWeather(searchText) {
   let currentWeatherUrl = currentWeather + searchText + neededParams;
   let fiveDayWeatherUrl = fiveDayForecast + searchText + neededParams;
-
   let currentWeatherResponse = await fetch(currentWeatherUrl);
-  renderWeather(await currentWeatherResponse.json());
+  currentWeatherResponse = await currentWeatherResponse.json();
+  if(currentWeatherResponse["cod"] === "404"){
+    let errorOnSearch = document.createElement("div");
+      errorOnSearch.setAttribute("id", "error-on-search");
+      searchResults.appendChild(errorOnSearch);
+      errorOnSearch.textContent = "Please enter a valid City Name into the search bar."
+  } else {
+    renderWeather(currentWeatherResponse);
+    let fiveDayWeatherResponse = await fetch(fiveDayWeatherUrl);
+    renderWeather(await fiveDayWeatherResponse.json());
 
-  let fiveDayWeatherResponse = await fetch(fiveDayWeatherUrl);
-  renderWeather(await fiveDayWeatherResponse.json());
-
-}
-function renderWeather(data) {
-
-if (data["list"]) {
-   console.log(data);
-  for (let i = 1; i < 40; i+=8){
-    let fiveDayCard = document.createElement("div");
-    fiveDayCard.setAttribute("id", "five-day-parent");
-    fiveDayCardParent.appendChild(fiveDayCard);
-    currentData = data["list"][i];
-    processData(currentData, fiveDayCard);
-    //create box for single day results
+     let fiveDayTitle = document.createElement("div");
+      fiveDayTitle.setAttribute("id", "five-day-title");
+      fiveDayTitle.textContent = "5-Day Forecast:";
+      fiveDayTitleParent.appendChild(fiveDayTitle);
   }
-} else {
-  let singleDayCard = document.createElement("div");
-  singleDayCard.setAttribute("id", "single-day-parent");
-  singleDayCardParent.append(singleDayCard);
-  processData(data, singleDayCard);
 }
- 
-}
-function processData(data, cardEl){
 
+function renderWeather(data) {
+ 
+  if (data["list"]) {
+    for (let i = 1; i < 40; i+=8){
+      let fiveDayCard = document.createElement("div");
+      fiveDayCard.setAttribute("id", "five-day-card");
+      fiveDayParent.appendChild(fiveDayCard);
+      currentData = data["list"][i];
+      processData(currentData, fiveDayCard);
+
+      
+    //create box for single day results
+  }} else {
+    let singleDayCard = document.createElement("div");
+    singleDayCard.setAttribute("id", "single-day-card");
+    singleDayParent.append(singleDayCard);
+    processData(data, singleDayCard);
+}
+}
+
+function processData(data, cardEl){
   //creating elements for HTML
   let cityData = document.createElement("div");
   cardEl.appendChild(cityData);
@@ -76,14 +134,14 @@ function processData(data, cardEl){
 
   let weatherData = document.createElement("div");
   cardEl.appendChild(weatherData);
-  weatherData.setAttribute("Class", "weather-data");
+  weatherData.setAttribute("class", "weather-data");
 
   //Creation of current weather location name.
-   let location = document.createElement("h2");
+  let location = document.createElement("h2");
   location.setAttribute("class", "return-name");
   let name = data.name ? data.name : "";
   location.textContent = name;
-
+  
   //Creation of current weather date.
   let currentDateEl = document.createElement("h2");
   let date = data.dt_txt ? data.dt_txt : moment().format("MM/DD/YYYY");
@@ -95,10 +153,10 @@ function processData(data, cardEl){
   //Creation of current weather icon
   let currentIconEl = document.createElement("img");
   // http://openweathermap.org/img/wn/01d.png
-  currentIconEl.setAttribute("class", "current-icon");
+  currentIconEl.setAttribute("class", "icon");
   let icon = weatherIconUrl + data.weather[0].icon + ".png";
   currentIconEl.src = icon;
-
+//appending info to HTML
   cityData.append(name + " " + date);
   cityData.append(currentIconEl);
 
@@ -107,7 +165,6 @@ function processData(data, cardEl){
   currentTempEl.setAttribute("class", "return-temp");
   let temp = data.main.temp;
   currentTempEl.textContent = "Temperature: " + temp + "F";
-
   weatherData.appendChild(currentTempEl);
 
   //creation of current weather humidity.
@@ -115,41 +172,12 @@ function processData(data, cardEl){
   currentHumidityEl.setAttribute("class", "return-humidity");
   let humidity = data.main.humidity;
   currentHumidityEl.textContent = "Humidity: " + humidity + " %";
-
-weatherData.appendChild(currentHumidityEl);
+  weatherData.appendChild(currentHumidityEl);
 
 //creation of current weather wind speed.
   let currentWindSpeedEl = document.createElement("p");
   currentWindSpeedEl.setAttribute("class", "return-wind-speed");
   let windSpeed = data.wind.speed;
   currentWindSpeedEl.textContent = "Wind Speed: " + windSpeed + " MPH";
-
-weatherData.appendChild(currentWindSpeedEl);
- console.log(data);
+  weatherData.appendChild(currentWindSpeedEl);
 }
-
-
-//Tested Code
-// function for 5day forecast API Fetch
-// async function fetchFiveDayWeather(searchText){
-    
-//     console.log(url)
-
-//     fetch(url)
-//         .then(response => response.json()
-//         .then(data => console.log(data)));
-
-        // renderFiveDay(data);
-// }
-//function for current Weather API Fetch.
-// async function fetchCurrentWeather(searchText) {
-//   let url = currentWeather + searchText + neededParams;
-//   let response = await fetch(url);
-//   renderCurrentWeather(await response.json());
-// }
-
-
-  // let location = document.querySelector(".name-title");
-  // document.createElement("h1");
-  // let name = data.name;
-  // location.textContent = name;

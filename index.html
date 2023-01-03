@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css”rel=”nofollow”
+        integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Weather Dashboard</title>
 </head>
@@ -13,16 +17,23 @@
     <header id="heading">Weather Dashboard</header>
 
     <main class="main-flex-container" id="main-flex-container">
-        <h2 class="search-title">Search for a City<h2>
-                <form class="search-form" id="search-from">
-                    <input class="Search" type="" id="Search-input">
-                    <button class="search-button" id="search-button" type="submit">Search</button>
-                </form>
-                <div id="search-results">
-                    <div id="single-day-parent">
-                    </div>
-                    <div id="five-day-parent"></div>
+        <div class="flex-row1">
+            <h2 class="search-title">Search for a City:<h2>
+                    <form class="search-form" id="search-from">
+                        <input class="search" type="" id="search-input">
+                        <button class="search-button" class="btn btn-outline-primary btn-sm" id="search-button"
+                            type="submit">Search</button>
+                        <div id="saved-city-parent" class=flex-col1></div>
+                    </form>
+        </div>
+        <div id="search-results" , class="flex-row2">
+            <div class="flex-col2">
+                <div id="single-day-parent">
                 </div>
+                <div class="five-day-title-parent"></div>
+                <div id="five-day-parent" class="flex-col3"></div>
+            </div>
+        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -33,3 +44,11 @@
 </body>
 
 </html>
+
+<!-- //single day < Needs a title "single day forecast" 
+    //header 
+    //body 
+//5 day < needs to have a title "Five Day forecast"
+    // each day 
+        //header 
+        //body -->
