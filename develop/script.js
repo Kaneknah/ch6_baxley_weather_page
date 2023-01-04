@@ -48,30 +48,34 @@ $(document).ready(function (event) {
       let errorOnSearch = $("<div></<div>")
         .attr("id", "error-on-search")
         .text("Please enter a City Name into the search bar and press Search.")
+
       searchResults.append(errorOnSearch);
+
     } else {
+
       fetchWeather(searchText);
       createSearchHistory(searchText);
     }
-    console.log(searchText);
   });
 });
 
 function createSearchHistory(searchText) {
-  console.log(searchText);
-    let savedCityBtn = $('<button></button>')
-        .addClass('saved-city-btn')
-        .text(searchText)
-        .on('click', function (event) {
-            ready(searchText);
-        })
-        .attr({
-            type: 'button'
-        });
-
-    // append btn to search history div
+  let savedCityBtn = $('<button></button>')
+      .addClass('saved-city-btn')
+      .text(searchText)
+      .on('click', function (event) {
+        console.log(searchText);
+        localStorage.setItem(searchResults,searchText );
+        console.log(searchResults)
+        
+      })
+      .attr({
+         type: 'button'
+      });
+    
     savedCityParent.prepend(savedCityBtn);
 }
+
 
 // function searchSavedCity(){
 //   savedCityBtn.on('click', ready(searchText))
@@ -88,6 +92,7 @@ async function fetchWeather(searchText) {
     let errorOnSearch = $("<div></<div>")
       .attr("id", "error-on-search")
       .text("Please enter a valid City Name into the search bar.");
+
     searchResults.append(errorOnSearch);
       
   } else {
@@ -98,6 +103,7 @@ async function fetchWeather(searchText) {
      let fiveDayTitle = $("<div></<div>")
         .attr("id", "five-day-title")
         .text("5-Day Forecast:");
+
       fiveDayTitleParent.append(fiveDayTitle);
   }
 }
@@ -126,10 +132,12 @@ function processData(data, cardEl){
   //creating elements for HTML
   let cityData = $("<div></<div>")
     .attr("class", "city-data");
+
   cardEl.append(cityData);
 
   let weatherData = $("<div></<div>")
     .attr("class", "weather-data");
+
   cardEl.append(weatherData);
 
   //Creation of current weather location name.
@@ -149,10 +157,12 @@ function processData(data, cardEl){
   //Creation of current weather icon
   // http://openweathermap.org/img/wn/01d.png
   let icon = weatherIconUrl + data.weather[0].icon + ".png";
-  let displayIconEl = $("img")
-  .attr("class", "icon")
-  .src = icon;
-//appending info to HTML
+  let displayIconEl = $("<img/>", {
+  class: "icon",
+  src: icon,
+  alt: "Weather icon"
+  });
+
   cityData.append(name + " " + date);
   cityData.append(displayIconEl);
 
@@ -169,6 +179,7 @@ function processData(data, cardEl){
   let currentHumidityEl = $("<p></p>")
     .attr("class", "return-humidity")
     .text( "Humidity: " + humidity + " %");
+
   weatherData.append(currentHumidityEl);
 
 //creation of current weather wind speed.
