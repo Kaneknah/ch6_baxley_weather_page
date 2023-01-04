@@ -76,3 +76,9 @@ text-align: center;
     font-size:x-large;
     font-weight: bold;
 }
+
+#five-day-title, #error-on-screen {
+font-size: x-large;
+text-align: center;
+
+}

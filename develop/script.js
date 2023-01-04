@@ -18,12 +18,13 @@ const fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?q=";
 const neededParams = "&APPID=" + apiId + "&units=imperial";
 const weatherIconUrl = 'http://openweathermap.org/img/wn/';
 const singleDayParent = $("#single-day-parent");
-const fiveDayTitleParent = $(".five-day-title-parent");
+const fiveDayTitleParent = $("#five-day-title-parent");
 const fiveDayParent = $("#five-day-parent");
 const savedCityParent = $("#saved-city-parent");
 
 //Start Search function: Connects the button and search ID to run the other functions.
-$(document).ready(function (event) {
+
+  $(document).ready(function (event) {
   $("#search-button").on("click", function (event) {
     event.preventDefault();
     //statement to reset search results
@@ -37,10 +38,12 @@ $(document).ready(function (event) {
       $("#error-on-search").remove();
     }
     if($("#five-day-title")) {
-      $(".five-day-title-parent").empty();
+      $("#five-day-title").remove();
     }
+//////////////////////////////////////////
+    //how do we stop it from making repeat buttons if the searchText is the same?
     if($(".saved-city-btn")){
-     $(".saved-cit-btn").remove();
+     $("#saved-city-btn").remove();
     }
     let searchText = $("#search-input").val();
     //if statement for blank search request
@@ -59,28 +62,26 @@ $(document).ready(function (event) {
   });
 });
 
+///////////////////////////////////////////
 function createSearchHistory(searchText) {
-  let savedCityBtn = $('<button></button>')
+    // if (!localStorage.getItem(searchText)) {
+    localStorage.setItem(searchText, JSON.stringify(searchText));
+    let savedCityBtn = $('<button></button>')
       .addClass('saved-city-btn')
       .text(searchText)
       .on('click', function (event) {
         console.log(searchText);
-        localStorage.setItem(searchResults,searchText );
-        console.log(searchResults)
-        
+        localStorage.getItem(searchResults,searchText );
+        var savedCityLocal = JSON.parse(localStorage.getItem(searchText));
+        fetchWeather(savedCityLocal); 
+      // savedCityLocal.textContent = savedCityBtn; 
+
       })
       .attr({
          type: 'button'
       });
-    
-    savedCityParent.prepend(savedCityBtn);
+      savedCityParent.prepend(savedCityBtn);
 }
-
-
-// function searchSavedCity(){
-//   savedCityBtn.on('click', ready(searchText))
-// }
-
 
 //function for weather API Fetch.
 async function fetchWeather(searchText) {
@@ -170,7 +171,7 @@ function processData(data, cardEl){
   let temp = data.main.temp;
   let currentTempEl = $("<p></p>")
     .attr("class", "return-temp")
-    .text("Temperature: " + temp + "F");
+    .text("Temperature: " + temp + " F");
 
   weatherData.append(currentTempEl);
 
