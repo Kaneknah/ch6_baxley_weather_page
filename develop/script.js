@@ -28,23 +28,7 @@ const savedCityParent = $("#saved-city-parent");
   $("#search-button").on("click", function (event) {
     event.preventDefault();
     //statement to reset search results
-    if($("#single-day-card")) {
-      $("#single-day-parent").empty();
-    }
-    if($("#five-day-card")) {
-      $("#five-day-parent").empty();
-    }
-    if($("#error-on-search")) {
-      $("#error-on-search").remove();
-    }
-    if($("#five-day-title")) {
-      $("#five-day-title").remove();
-    }
-//////////////////////////////////////////
-    //how do we stop it from making repeat buttons if the searchText is the same?
-    if($(".saved-city-btn")){
-     $("#saved-city-btn").remove();
-    }
+    removeDuplicates();
     let searchText = $("#search-input").val();
     //if statement for blank search request
     if(!searchText){
@@ -62,6 +46,32 @@ const savedCityParent = $("#saved-city-parent");
   });
 });
 
+function removeDuplicates(){
+    if($("#single-day-card")) {
+      $("#single-day-parent").empty();
+    }
+    if($("#five-day-card")) {
+      $("#five-day-parent").empty();
+    }
+    if($("#error-on-search")) {
+      $("#error-on-search").remove();
+    }
+    if($("#five-day-title")) {
+      $("#five-day-title").remove();
+    }
+//////////////////////////////////////////
+    //how do we stop it from making repeat buttons if the searchText is the same?
+    if($(".saved-city-btn")){
+     $("#saved-city-btn").remove();
+    }
+    if($("#error-on-search")){
+      $("#error-on-search").remove();
+    }
+    if($(".saved-city-button").val = $("#search-input").val());
+    $(".saved-city-button").remove();
+    console.log($(".saved-city-button").val)
+}
+
 ///////////////////////////////////////////
 function createSearchHistory(searchText) {
     // if (!localStorage.getItem(searchText)) {
@@ -71,6 +81,7 @@ function createSearchHistory(searchText) {
       .text(searchText)
       .on('click', function (event) {
         console.log(searchText);
+        removeDuplicates()
         localStorage.getItem(searchResults,searchText );
         var savedCityLocal = JSON.parse(localStorage.getItem(searchText));
         fetchWeather(savedCityLocal); 
@@ -100,12 +111,6 @@ async function fetchWeather(searchText) {
     renderWeather(currentWeatherResponse);
     let fiveDayWeatherResponse = await fetch(fiveDayWeatherUrl);
     renderWeather(await fiveDayWeatherResponse.json());
-
-     let fiveDayTitle = $("<div></<div>")
-        .attr("id", "five-day-title")
-        .text("5-Day Forecast:");
-
-      fiveDayTitleParent.append(fiveDayTitle);
   }
 }
 
@@ -126,7 +131,14 @@ function renderWeather(data) {
       .attr("id", "single-day-card");
     singleDayParent.append(singleDayCard);
     processData(data, singleDayCard);
+
+    let fiveDayTitle = $("<div></<div>")
+    .attr("id", "five-day-title")
+    .text("5-Day Forecast:");
+
+  fiveDayTitleParent.append(fiveDayTitle);
 }
+  
 }
 
 function processData(data, cardEl){
@@ -159,9 +171,9 @@ function processData(data, cardEl){
   // http://openweathermap.org/img/wn/01d.png
   let icon = weatherIconUrl + data.weather[0].icon + ".png";
   let displayIconEl = $("<img/>", {
-  class: "icon",
-  src: icon,
-  alt: "Weather icon"
+    class: "icon",
+    src: icon,
+    alt: "Weather icon"
   });
 
   cityData.append(name + " " + date);
@@ -177,14 +189,14 @@ function processData(data, cardEl){
 
   //creation of current weather humidity.
    let humidity = data.main.humidity;
-  let currentHumidityEl = $("<p></p>")
+   let currentHumidityEl = $("<p></p>")
     .attr("class", "return-humidity")
     .text( "Humidity: " + humidity + " %");
 
   weatherData.append(currentHumidityEl);
 
 //creation of current weather wind speed.
-let windSpeed = data.wind.speed;
+  let windSpeed = data.wind.speed;
   let currentWindSpeedEl = $("<p></p>")
     .attr("class", "return-wind-speed")
     .text("Wind Speed: " + windSpeed + " MPH");
