@@ -1,16 +1,5 @@
-// GIVEN a weather dashboard with form inputs
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions,
-// the temperature, the humidity, and the the wind speed
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, 
-//an icon representation of weather conditions, the temperature, 
-//the wind speed, and the humidity
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
 
+//global variables
 let searchResults = $("#search-results");
 const apiId = "bce1c0851022d2aa9806bc7732f1bf27";
 const currentWeather = "https://api.openweathermap.org/data/2.5/weather?q=";
@@ -22,12 +11,11 @@ const fiveDayTitleParent = $("#five-day-title-parent");
 const fiveDayParent = $("#five-day-parent");
 const savedCityParent = $("#saved-city-parent");
 
-//Start Search function: Connects the button and search ID to run the other functions.
-
+//Start Search function: Connects the button and user input to run the other functions.
   $(document).ready(function (event) {
   $("#search-button").on("click", function (event) {
     event.preventDefault();
-    //statement to reset search results
+    //run function to remove duplicate elements created.
     removeDuplicates();
     let searchText = $("#search-input").val();
     //if statement for blank search request
@@ -39,63 +27,17 @@ const savedCityParent = $("#saved-city-parent");
       searchResults.append(errorOnSearch);
 
     } else {
-
+//feath weather function and create the search history buttons for local storage
       fetchWeather(searchText);
-      createSearchHistory(searchText);
+      
     }
   });
 });
 
-function removeDuplicates(){
-    if($("#single-day-card")) {
-      $("#single-day-parent").empty();
-    }
-    if($("#five-day-card")) {
-      $("#five-day-parent").empty();
-    }
-    if($("#error-on-search")) {
-      $("#error-on-search").remove();
-    }
-    if($("#five-day-title")) {
-      $("#five-day-title").remove();
-    }
-//////////////////////////////////////////
-    //how do we stop it from making repeat buttons if the searchText is the same?
-    if($(".saved-city-btn")){
-     $("#saved-city-btn").remove();
-    }
-    if($("#error-on-search")){
-      $("#error-on-search").remove();
-    }
-    if($(".saved-city-button").val = $("#search-input").val());
-    $(".saved-city-button").remove();
-    console.log($(".saved-city-button").val)
-}
 
-///////////////////////////////////////////
-function createSearchHistory(searchText) {
-    // if (!localStorage.getItem(searchText)) {
-    localStorage.setItem(searchText, JSON.stringify(searchText));
-    let savedCityBtn = $('<button></button>')
-      .addClass('saved-city-btn')
-      .text(searchText)
-      .on('click', function (event) {
-        console.log(searchText);
-        removeDuplicates()
-        localStorage.getItem(searchResults,searchText );
-        var savedCityLocal = JSON.parse(localStorage.getItem(searchText));
-        fetchWeather(savedCityLocal); 
-      // savedCityLocal.textContent = savedCityBtn; 
-
-      })
-      .attr({
-         type: 'button'
-      });
-      savedCityParent.prepend(savedCityBtn);
-}
-
-//function for weather API Fetch.
+//function for weather API Fetch.applied for single day and 5 day results though awaits.
 async function fetchWeather(searchText) {
+
   let currentWeatherUrl = currentWeather + searchText + neededParams;
   let fiveDayWeatherUrl = fiveDayForecast + searchText + neededParams;
   let currentWeatherResponse = await fetch(currentWeatherUrl);
@@ -104,44 +46,42 @@ async function fetchWeather(searchText) {
     let errorOnSearch = $("<div></<div>")
       .attr("id", "error-on-search")
       .text("Please enter a valid City Name into the search bar.");
-
     searchResults.append(errorOnSearch);
-      
-  } else {
+  }else {
     renderWeather(currentWeatherResponse);
     let fiveDayWeatherResponse = await fetch(fiveDayWeatherUrl);
     renderWeather(await fiveDayWeatherResponse.json());
+    createSearchHistory(searchText);
   }
 }
-
+//function to display the rendered weather data on the HTML page.
 function renderWeather(data) {
- 
+ // creates alternative HTML items depending on if the call was a single-day or a 5-day fetch (both are done each fetch)
   if (data["list"]) {
+    //five day results
     for (let i = 1; i < 40; i+=8){
       let fiveDayCard = $("<div></<div>")
         .attr("id", "five-day-card");
       fiveDayParent.append(fiveDayCard);
       currentData = data["list"][i];
       processData(currentData, fiveDayCard);
-
-      
-    //create box for single day results
+    // single day results
   }} else {
     let singleDayCard = $("<div></<div>")
       .attr("id", "single-day-card");
     singleDayParent.append(singleDayCard);
     processData(data, singleDayCard);
-
+    //title for 5-day results
     let fiveDayTitle = $("<div></<div>")
-    .attr("id", "five-day-title")
-    .text("5-Day Forecast:");
+      .attr("id", "five-day-title")
+      .text("5-Day Forecast:");
 
   fiveDayTitleParent.append(fiveDayTitle);
 }
-  
 }
-
+//Processing the API data onto the HTML for both single and 5 day calls.
 function processData(data, cardEl){
+
   //creating elements for HTML
   let cityData = $("<div></<div>")
     .attr("class", "city-data");
@@ -202,4 +142,52 @@ function processData(data, cardEl){
     .text("Wind Speed: " + windSpeed + " MPH");
 
   weatherData.append(currentWindSpeedEl);
+}
+///////////////////////////////////////////
+//function that creates the search history buttons and aligns them with the event listeners and local storage.
+function createSearchHistory(searchText) {
+    // if (!localStorage.getItem(searchText)) {
+      if (!localStorage.getItem(searchText)) {
+    localStorage.setItem(searchText, JSON.stringify(searchText));
+    if (savedCityLocal !== null) { 
+    Object.keys(localStorage).forEach((key) => {
+        var savedCityLocal = JSON.parse(localStorage.getItem(key));
+    let savedCityBtn = $('<button></button>')
+      .addClass('saved-city-btn')
+      .text(searchText)
+      .attr({
+         type: 'button'
+      })
+      .on('click', function (event) {
+        
+      fetchWeather(savedCityLocal);  
+        })
+        savedCityParent.prepend(savedCityBtn);
+      });
+      removeDuplicates()
+      
+    }}
+}
+
+//function ot guarantee no duplicates are created when specific renders are created.
+function removeDuplicates(){
+    if($("#single-day-card")) {
+      $("#single-day-parent").empty();
+    }
+    if($("#five-day-card")) {
+      $("#five-day-parent").empty();
+    }
+    if($("#error-on-search")) {
+      $("#error-on-search").remove();
+    }
+    if($("#five-day-title")) {
+      $("#five-day-title").remove();
+    }
+    if($(".saved-city-btn")){
+     $("#saved-city-btn").remove();
+    }
+    if($("#error-on-search")){
+      $("#error-on-search").remove();
+    }
+
 }
