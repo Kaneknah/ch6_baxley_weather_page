@@ -23,21 +23,24 @@ const savedCityParent = $("#saved-city-parent");
       let errorOnSearch = $("<div></<div>")
         .attr("id", "error-on-search")
         .text("Please enter a City Name into the search bar and press Search.")
-
       searchResults.append(errorOnSearch);
-
     } else {
-//feath weather function and create the search history buttons for local storage
+//fetch weather function and create the search history buttons for local storage
       fetchWeather(searchText);
-      
     }
   });
 });
 
+function renderHistory() {
+  const localStorageData = { ...localStorage };
+  for(const [key] of Object.entries(localStorageData)) {
+    renderSearchHistory(String(key)); 
+  }
+}
 
 //function for weather API Fetch.applied for single day and 5 day results though awaits.
 async function fetchWeather(searchText) {
-
+  removeDuplicates();
   let currentWeatherUrl = currentWeather + searchText + neededParams;
   let fiveDayWeatherUrl = fiveDayForecast + searchText + neededParams;
   let currentWeatherResponse = await fetch(currentWeatherUrl);
@@ -143,30 +146,26 @@ function processData(data, cardEl){
 
   weatherData.append(currentWindSpeedEl);
 }
-///////////////////////////////////////////
+
 //function that creates the search history buttons and aligns them with the event listeners and local storage.
 function createSearchHistory(searchText) {
-    // if (!localStorage.getItem(searchText)) {
       if (!localStorage.getItem(searchText)) {
     localStorage.setItem(searchText, JSON.stringify(searchText));
-    if (savedCityLocal !== null) { 
-    Object.keys(localStorage).forEach((key) => {
-        var savedCityLocal = JSON.parse(localStorage.getItem(key));
-    let savedCityBtn = $('<button></button>')
-      .addClass('saved-city-btn')
-      .text(searchText)
-      .attr({
-         type: 'button'
-      })
-      .on('click', function (event) {
-        
-      fetchWeather(savedCityLocal);  
-        })
-        savedCityParent.prepend(savedCityBtn);
-      });
-      removeDuplicates()
-      
-    }}
+    renderSearchHistory(searchText);
+  }
+}
+    
+function renderSearchHistory(searchText){
+  let savedCityBtn = $('<button></button>')
+    .addClass('saved-city-btn')
+    .text(searchText)
+    .attr({
+        type: 'button'
+    })
+    .on('click', function (event) {
+      fetchWeather(searchText);  
+    })
+  savedCityParent.prepend(savedCityBtn);
 }
 
 //function ot guarantee no duplicates are created when specific renders are created.
@@ -189,5 +188,4 @@ function removeDuplicates(){
     if($("#error-on-search")){
       $("#error-on-search").remove();
     }
-
 }
