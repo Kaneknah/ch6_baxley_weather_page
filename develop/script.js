@@ -13,6 +13,7 @@ const savedCityParent = $("#saved-city-parent");
 
 //Start Search function: Connects the button and user input to run the other functions.
   $(document).ready(function (event) {
+    renderHistory();
   $("#search-button").on("click", function (event) {
     event.preventDefault();
     //run function to remove duplicate elements created.

@@ -12,8 +12,11 @@ This challenge pushed my abilities further than pervious challenges as I attempt
 
 This challenge, while demanding, provided me with a great deal of practice and greatly helped build my confidence in my abilities. I feel my understanding of syntax and function processes has increased the most during this challenge and I am proud to see a final product that functions and operates correctly.
 
-This functionality of the challenge is as follows. Firstly, on initialization, a history of the search will be saved to local storage and a button with the name of the searched city will appear. Secondly, a Fetch API function will be called that utilizes two API calls, the single day weather API and the 5-day-forecast API. The results of this will be rendered on the page in a visually appealing format. The data retrieved from the API calls will display the name of the city, date, temperature, wind-speed, and humidity for the current day, as well as the the following forecasted days. The functions also display an icon showing an image representation of the weather(see image below)
-???????????????????????????????????
+This functionality of the challenge is as follows. Firstly, on initialization, a history of the search will be saved to local storage and a button with the name of the searched city will appear. Secondly, a Fetch API function will be called that utilizes two API calls, the single day weather API and the 5-day-forecast API. The results of this will be rendered on the page in a visually appealing format. The data retrieved from the API calls will display the name of the city, date, temperature, wind-speed, and humidity for the current day, as well as the the following forecasted days. The functions also display an icon showing an image representation of the weather(see images below)
+ScreenShot #1
+![Alt text](./assets/images/screenshot1.png)
+Screenshot #2
+![Alt text](./assets/images/screenshot2.png)
 
 ## User Story
 
@@ -43,8 +46,6 @@ No Installation Steps
 ## Usage
 
 This project can be initiated by entering in a city name into the search field and selecting the search button.This will initialize the API calls and the Local Storage functions. The weather will then be displayed on the screen for the user to review. The user can search a new city in the input field, or select a previously searched city by selecting one of the saved buttons from the local storage call.
-![Alt text](assets/images/Coctail%20Recipe%20Generator%20image%200.jpg)
-![Alt text](assets/images/Coctail%20Recipe%20Generator%20image%201.jpg)
 
 ## Credits
 
