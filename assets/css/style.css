@@ -1,113 +1,112 @@
-
 header {
-font-size: xxx-large;
-background-color: rgb(30, 30, 226);
-color:beige;
-text-align: center;
-font-family:'Times New Roman', Times, serif;
-border-radius: 0.4rem;
+	font-size: xxx-large;
+	background-color: rgb(30, 30, 226);
+	color: beige;
+	text-align: center;
+	font-family: "Times New Roman", Times, serif;
+	border-radius: 0.4rem;
 }
 
-.search-title{
-    display: block;
-    margin-bottom: 0%;
-    text-align: center;
+.search-title {
+	display: block;
+	margin-bottom: 0%;
+	text-align: center;
 }
 .search-results {
-    display:flex;
-    text-align: center;
-    width:100%
+	display: flex;
+	text-align: center;
+	width: 100%;
 }
 
-.return-name, .current-date {
-    font-size: x-large;
-    font-weight: bold;
+.return-name,
+.current-date {
+	font-size: x-large;
+	font-weight: bold;
 }
 #saved-city-parent {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 /* Formatting for buttons */
-.saved-city-btn{
-    color: beige;
-    border-radius: 0.4rem;
-    border: none;
-    background-color: rgba(73, 72, 72, 0.71);
-    padding-top: 2px;
-    margin: 2px;
+.saved-city-btn {
+	color: beige;
+	border-radius: 0.4rem;
+	border: none;
+	background-color: rgba(73, 72, 72, 0.71);
+	padding-top: 2px;
+	margin: 2px;
 }
 .search-button {
-    background-color: #00334d;
-    color:beige;
-    border-radius: 0.4rem;
-    border: none;
+	background-color: #00334d;
+	color: beige;
+	border-radius: 0.4rem;
+	border: none;
 }
 
 #single-day-card {
-    border: solid black;
-    margin: 20px;
-    padding: 2%;
-    border-radius: 0.4rem;
+	border: solid black;
+	margin: 20px;
+	padding: 2%;
+	border-radius: 0.4rem;
 }
 #five-day-card {
-    border:solid black;
-    background-color: #00334d;
-    color:beige;
-    margin: 3px;
-    padding: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
-    border-radius: 0.4rem;
+	border: solid black;
+	background-color: #00334d;
+	color: beige;
+	margin: 3px;
+	padding: 2%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-around;
+	border-radius: 0.4rem;
 }
 
 .input {
-text-align: center;
+	text-align: center;
 }
 
-#five-day-parent{
-    margin: 10px;
-    min-width: 60px;
-    align-self: stretch;
-    align-content: space-around;
-    justify-content: space-evenly;
-    display: flex;
-    flex-direction: row;
-    
+#five-day-parent {
+	margin: 10px;
+	min-width: 60px;
+	align-self: stretch;
+	align-content: space-around;
+	justify-content: space-evenly;
+	display: flex;
+	flex-direction: row;
 }
 @media only screen and (max-width: 900px) {
-    #five-day-parent {
-        flex-wrap: wrap;
-    }
+	#five-day-parent {
+		flex-wrap: wrap;
+	}
 }
 
 /* Flexbox alignments */
 .main-flex-container {
-    display: flex;
-    flex-direction: row;
-    width:100%
+	display: flex;
+	flex-direction: row;
+	width: 100%;
 }
 
 .flex-row1 {
-    display: flex;
-    flex-direction: column;
-    width:10%;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 10%;
+	height: 100%;
 }
-.search{
-    width:100%
+.search {
+	width: 100%;
 }
 .city-data {
-    font-size:x-large;
-    font-weight: bold;
+	font-size: x-large;
+	font-weight: bold;
 }
 
-#five-day-title, #error-on-search {
-font-size: x-large;
-text-align: center;
-padding: 5px;
-margin-left: 10px;
-font-weight: bold;
+#five-day-title,
+#error-on-search {
+	font-size: x-large;
+	text-align: center;
+	padding: 5px;
+	margin-left: 10px;
+	font-weight: bold;
 }
-
