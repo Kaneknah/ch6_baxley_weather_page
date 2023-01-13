@@ -6,7 +6,7 @@ API Weather page
 
 This Challenge was the creation of a Weather Dashboard(https://kaneknah.github.io/ch6_baxley_weather_page/) that would utilize API calls from "OpenWeather API" to check the current weather and the five day forecast for s searched city.
 
-The project utilized such technologies as the before mentioned API, as well as JQuery, and Bulma CSS framework.
+The project utilized such technologies as the before mentioned API, as well as JQuery.
 
 This challenge pushed my abilities further than pervious challenges as I attempted to implement the recently learned Jquery syntax over vanilla Java Script. the changes in syntax, while difficult at first, was a great addition to my understanding and overall ended up making writing this project easier to understand and to code. Another challenge that this project presented with the calling of multiple API functions and rendering them on a single HTML page for viewing. The key to this process was attempting to keep the code as day as possible. I found that not repeating myself with the rendering of the API calls created multiple bugs when the functions ran. Debugging this process, while time consuming and challenging, was highly beneficial to my understanding of the code and the processes involved in creating this challenge project.
 
@@ -49,7 +49,6 @@ This project can be initiated by entering in a city name into the search field a
 
 ## Credits
 
-CSS framework provided by Bluma.io.
 API provided by OpenWeather API https://openweathermap.org/forecast5.
 Javascript Library features provided by JQuery https://jqueryui.com/.
 
